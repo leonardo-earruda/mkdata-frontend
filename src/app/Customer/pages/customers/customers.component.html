@@ -1,0 +1,78 @@
+<div class="container">
+  <form [formGroup]="searchForm">
+    <div class="form-container">
+      <mat-form-field appearance="outline">
+        <mat-label>Cliente</mat-label>
+        <input
+          formControlName="name"
+          matInput
+          type="text"
+          placeholder="Insira o nome do cliente"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label> Status</mat-label>
+        <mat-select formControlName="status">
+          <mat-option value="">Todos</mat-option>
+          <mat-option *ngFor="let status of allStatus" [value]="status.value">
+            {{status.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <button mat-raised-button color="primary" (click)="getFilter()">Pesquisar</button>
+  </form>
+
+  <mat-table matSort #table [dataSource]="dataSource">
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Nome</mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{ row.name }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="personType">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Tipo de pessoa</mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.personType | enumToString }}  </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="documentNumber">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Número do documento</mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{ row.documentNumber }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="registerNumber">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Número do registro</mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{ row.registerNumber }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="telephoneNumbers">
+      <mat-header-cell *matHeaderCellDef> Telefones</mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <ng-container *ngFor="let phone of row.telephoneNumbers">
+          {{ phone.ddd }}
+          {{ phone.number }}
+          <br>
+        </ng-container>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="isActive">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Status</mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{ row.customerStatus | enumToString }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef>
+        <mat-icon (click)="create()">add</mat-icon>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <mat-icon (click)="edit(row.id)">edit</mat-icon>
+        <mat-icon (click)="delete(row.id)">delete</mat-icon>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </mat-table>
+  <mat-paginator showFirstLastButtons class="box-shadow-paginator"></mat-paginator>
+</div>

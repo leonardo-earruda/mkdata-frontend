@@ -1,0 +1,60 @@
+<div class="container">
+  <h1> {{this.isEditing ? 'Editar cliente' : 'Cadastrar cliente'}} </h1>
+  <form [formGroup]="customerForm">
+    <div class="line-container">
+      <mat-form-field appearance="outline">
+        <mat-label>Nome</mat-label>
+        <input matInput formControlName="name" placeholder="Insira o nome do cliente">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label> Tipo de pessoa</mat-label>
+        <mat-select formControlName="personType">
+          <mat-option *ngFor="let personType of personTypes" [value]="personType.value">
+            {{personType.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="line-container">
+      <mat-form-field appearance="outline">
+        <mat-label>Número de documento</mat-label>
+        <input matInput formControlName="documentNumber" placeholder="Insira o número do documento">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Número de registro</mat-label>
+        <input matInput formControlName="registerNumber" placeholder="Insira o número do registro">
+      </mat-form-field>
+    </div>
+
+    <div class="line-container">
+      <h2>Adicionar Telefone</h2>
+      <mat-icon (click)="addTelephones()">add</mat-icon>
+    </div>
+
+    <ng-container formArrayName="telephoneNumbers">
+      <ng-container *ngFor="let telephoneForm of telephones.controls; let i = index">
+        <form class="telephone-form-row" [formGroup]="telephoneForm">
+          <div class="line-container">
+            <mat-form-field appearance="outline">
+              <mat-label>Number</mat-label>
+              <input matInput formControlName="number" placeholder="Number">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>DDD</mat-label>
+              <input matInput formControlName="ddd" placeholder="DDD">
+            </mat-form-field>
+            <mat-icon (click)="deleteTelephone(i)">delete_forever</mat-icon>
+          </div>
+        </form>
+      </ng-container>
+    </ng-container>
+
+  </form>
+  <div class="actions-container">
+    <button mat-raised-button color="warn" mat-dialog-close>Cancelar</button>
+    <button mat-raised-button color="primary" (click)="save()" mat-dialog-close>Salvar</button>
+  </div>
+</div>
