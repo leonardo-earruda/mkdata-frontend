@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, MaxValidator, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {CustomerService} from "../../services/customer.service";
 
@@ -36,6 +36,7 @@ export class CustomerFormComponent implements OnInit {
           this.formBuilder.group({
             number: [telephone.number || null, Validators.max(8)],
             ddd: [telephone.ddd || null, Validators.max(2)],
+            id: [telephone.id]
           })
         )
       ),
@@ -48,26 +49,24 @@ export class CustomerFormComponent implements OnInit {
 
   addTelephones() {
     const telephoneForm = this.formBuilder.group({
-      number: ['',],
-      ddd: ['',]
+      number: [''],
+      ddd: [''],
+      id: []
     });
     this.telephones.push(telephoneForm);
   }
 
   deleteTelephone(telephoneIndex: number) {
-
     this.telephones.removeAt(telephoneIndex);
   }
 
   createCustomer() {
     this.customerService.create(this.getCustomerRequestObject()).subscribe((res) => {
-      console.log(res);
     })
   }
 
   editCustomer() {
     this.customerService.update(this.getCustomerRequestObject(), this.data.customer.id).subscribe((res) => {
-      console.log(res);
     })
   }
 
