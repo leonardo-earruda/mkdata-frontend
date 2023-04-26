@@ -9,7 +9,7 @@ import {PageableResponse} from "../../utils/pageable-response";
   providedIn: 'root'
 })
 export class CustomerService implements FindPageableStrategy {
-  private url = 'https://296c-2804-14d-8470-80da-51ab-c209-28ea-c984.ngrok-free.app/clientes';
+  private url = 'http://localhost:8080/clientes';
 
   constructor(private http: HttpClient) {
   }
